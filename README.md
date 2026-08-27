@@ -1,4 +1,4 @@
-# crop-species-detection
+# Crop-Species-Detection
 
 A hierarchical crop species classifier built on a **DINOv2 ViT-B/14** backbone,
 packaged as an installable Python library (converted from the original
