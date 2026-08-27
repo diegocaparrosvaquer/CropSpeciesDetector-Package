@@ -41,6 +41,8 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Print raw JSON results instead of a human-readable summary.",
     )
+    parser.add_argument("--stage1", default=None, help="Path to stage1 checkpoint (auto-downloaded if omitted)")
+    parser.add_argument("--stage2", default=None, help="Path to stage2 checkpoint (auto-downloaded if omitted)")
     return parser
 
 
@@ -62,10 +64,7 @@ def main(argv=None) -> int:
         if not Path(img).exists():
             parser.error(f"Image not found: {img}")
 
-    detector = CropSpeciesDetector.from_checkpoints(
-        args.stage1, args.stage2, device=args.device
-    )
-
+    detector = CropSpeciesDetector.from_pretrained(args.stage1, args.stage2)
     results = {img: detector.predict(img) for img in args.images}
 
     if args.json:
