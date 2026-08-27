@@ -14,11 +14,12 @@ Two-stage pipeline:
 
 ## Installation
 
+### From GitHub
+
+Install the latest version directly from the repository:
+
 ```bash
-pip install .
-# or, editable, for development:
-pip install -e .
-```
+pip install git+https://github.com/diegocaparrosvaquer/CropSpeciesDetector-Package.git
 
 Matplotlib is optional (only needed if you want to reproduce the demo's
 probability bar charts) — install with `pip install .[viz]`.
