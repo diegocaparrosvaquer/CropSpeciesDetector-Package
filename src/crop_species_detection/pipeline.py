@@ -22,6 +22,7 @@ from .constants import (
     STAGE2_CLASSES,
 )
 from .model import DINOv2Classifier
+from .checkpoints import get_checkpoint_path
 
 ImageInput = Union[str, "os.PathLike[str]", Image.Image]
 
@@ -168,7 +169,12 @@ class CropSpeciesDetector:
             stage2_idx_to_class,
             device=device,
         )
-
+    @classmethod
+    def from_pretrained(cls, stage1_path: str | None = None, stage2_path: str | None = None, **kwargs):
+        """Like from_checkpoints, but auto-downloads from the Hub if a path isn't given."""
+        stage1_path = stage1_path or get_checkpoint_path("stage1")
+        stage2_path = stage2_path or get_checkpoint_path("stage2")
+        return cls.from_checkpoints(stage1_path, stage2_path, **kwargs)
     @staticmethod
     def _load_state_dict_strict(model, checkpoint, label: str) -> None:
         try:
