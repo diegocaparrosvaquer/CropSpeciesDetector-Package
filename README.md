@@ -14,28 +14,54 @@ Two-stage pipeline:
 
 ## Installation
 
-### From GitHub
+## From GitHub
 
-Install the latest version directly from the repository:
+Install the latest development version directly from the GitHub repository:
 
 ```bash
 pip install git+https://github.com/diegocaparrosvaquer/CropSpeciesDetector-Package.git
+```
 
-Matplotlib is optional (only needed if you want to reproduce the demo's
-probability bar charts) — install with `pip install .[viz]`.
+For the latest stable release, install from PyPI instead:
+
+```bash
+pip install crop-species-detection
+```
+
+Matplotlib is optional and only needed if you want to reproduce the demo's probability bar charts:
+
+```bash
+pip install "crop-species-detection[viz]"
+```
 
 ## Model checkpoints
 
-This package ships **code only**. You still need the trained checkpoints
-(`stage1_best.pt`, `stage2_best.pt`), which are tracked with Git LFS in the
-original repo:
+The trained model checkpoints are hosted on Hugging Face Hub and are **downloaded automatically** when using `from_pretrained()`.
 
-```bash
-git clone https://github.com/diegocaparrosvaquer/crop-species-detection-demo.git
-git -C crop-species-detection-demo lfs pull
+You do **not** need to clone the original demo repository, install Git LFS, or manually download the checkpoints.
+
+```python
+from crop_species_detection import CropSpeciesDetector
+
+detector = CropSpeciesDetector.from_pretrained()
 ```
 
-Point the library at `crop-species-detection-demo/models/`.
+On the first use, the package automatically downloads:
+
+* `stage1_best.pt` — Stage 1 cropland classifier
+* `stage2_best.pt` — Stage 2 crop species classifier
+
+The checkpoints are cached locally by `huggingface_hub`, so subsequent uses do not need to download them again.
+
+You can also provide local checkpoints manually if desired:
+
+```python
+detector = CropSpeciesDetector.from_checkpoints(
+    "path/to/stage1_best.pt",
+    "path/to/stage2_best.pt",
+)
+```
+
 
 ## Usage
 
